@@ -2,12 +2,12 @@
 
 Userscript for Tampermonkey that cleans up the **Meta Business Suite → Insights → Content** table.
 
-It works locally in your browser: it hides promotion buttons and overflow menus, then displays the loaded content rows eight at a time with a simple pager.
+It works locally in your browser: it hides promotion buttons and overflow menus, then displays the loaded content rows eight at a time with a simple pager when pagination is needed.
 
 ## Features
 
 - Hides **Promote / Boost** controls and row overflow menus (the three dots).
-- Adds **Previous / Next** controls and shows eight rows per page.
+- Adds **Previous / Next** controls and shows eight rows per page only when more than eight rows are loaded. The controls are removed when eight or fewer rows are available.
 - Recognizes common promotion labels in English, Spanish, Portuguese, French, German, Italian, Dutch, several Nordic and Central European languages, Turkish, Indonesian, Vietnamese, Russian, Chinese, Japanese, Korean, Arabic and Hebrew.
 - Runs only on the Meta Business Suite Content Insights page.
 - Does not change posts, account settings, or analytics data.

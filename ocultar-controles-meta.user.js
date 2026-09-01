@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Meta Business Suite Content Table Cleaner & Pager
 // @namespace    https://github.com/Daidaros/meta-business-suite-content-table-cleaner
-// @version      2.0.0
-// @description  Hide promotion and overflow controls, then browse Meta Business Suite content eight rows at a time.
+// @version      2.1.0
+// @description  Hide promotion and overflow controls, then paginate Meta Business Suite content only when more than eight rows are loaded.
 // @author       Daidaros
 // @match        https://business.facebook.com/latest/insights/content*
 // @grant        none
@@ -128,8 +128,19 @@
     return pager;
   }
 
+  function removePager() {
+    document.getElementById(PAGER_ID)?.remove();
+  }
+
   function applyPagination() {
     const rows = dataRows();
+    if (rows.length <= ROWS_PER_PAGE) {
+      rows.forEach((row) => row.removeAttribute(PAGE_HIDDEN));
+      page = 0;
+      removePager();
+      return;
+    }
+
     const pager = ensurePager();
     const totalPages = Math.max(1, Math.ceil(rows.length / ROWS_PER_PAGE));
     page = Math.max(0, Math.min(page, totalPages - 1));
