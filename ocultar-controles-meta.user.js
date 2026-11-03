@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meta Business Suite Content Table Cleaner & Pager
 // @namespace    https://github.com/Daidaros/meta-business-suite-content-table-cleaner
-// @version      2.2.1
+// @version      2.3.0
 // @description  Hide promotion and overflow controls, then paginate Meta Business Suite content only when more than eight rows are loaded.
 // @author       Daidaros
 // @homepageURL  https://github.com/Daidaros/meta-business-suite-content-table-cleaner
@@ -20,6 +20,7 @@
   const STYLE_ID = 'ocultar-controles-meta-style';
   const PAGER_ID = 'ocultar-controles-meta-pager';
   const PAGE_HIDDEN = 'data-ocultar-controles-meta-page-hidden';
+  const CHATBOT_HIDDEN = 'data-ocultar-controles-meta-chatbot';
   const ROWS_PER_PAGE = 8;
   const PROMOTION_LABELS = new Set([
     // English, Spanish, Portuguese, French, German, Italian and Dutch
@@ -32,6 +33,7 @@
     // Chinese, Japanese, Korean, Arabic and Hebrew
     '推广', '推廣', '宣伝する', '홍보하기', 'ترويج', 'كسب التفاعل', 'קדם',
   ]);
+  const CHATBOT_LABELS = ['meta ai', 'ask meta ai', 'chat with meta ai', 'hablar con meta ai'];
   let page = 0;
 
   const cleanText = (element) =>
@@ -52,6 +54,25 @@
     }
   }
 
+  function markChatbot() {
+    for (const candidate of document.querySelectorAll('[aria-label], [title], img[alt]')) {
+      const label = [
+        candidate.getAttribute('aria-label'),
+        candidate.getAttribute('title'),
+        candidate.getAttribute('alt'),
+      ].filter(Boolean).join(' ').toLocaleLowerCase();
+
+      if (!CHATBOT_LABELS.some((name) => label.includes(name))) continue;
+
+      const control = candidate.closest('[role="button"], button, a') || candidate;
+      const rect = control.getBoundingClientRect();
+      const nearBottomRight = rect.right >= window.innerWidth - 200 &&
+        rect.bottom >= window.innerHeight - 180 && rect.width <= 160 && rect.height <= 160;
+
+      if (nearBottomRight) control.setAttribute(CHATBOT_HIDDEN, 'true');
+    }
+  }
+
   function installStyle() {
     if (document.getElementById(STYLE_ID)) return;
 
@@ -62,7 +83,8 @@
         display: none !important;
       }
 
-      [role="grid"] [${PAGE_HIDDEN}="true"] {
+      [role="grid"] [${PAGE_HIDDEN}="true"],
+      [${CHATBOT_HIDDEN}="true"] {
         display: none !important;
       }
 
@@ -167,6 +189,7 @@
       queued = false;
       installStyle();
       markControls();
+      markChatbot();
       applyPagination();
     });
   }
