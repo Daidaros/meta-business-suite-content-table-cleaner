@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Meta Business Suite Content Table Cleaner & Pager
 // @namespace    https://github.com/Daidaros/meta-business-suite-content-table-cleaner
-// @version      2.3.1
+// @version      2.4.0
 // @description  Hide promotion and overflow controls, then paginate Meta Business Suite content only when more than eight rows are loaded.
 // @author       Daidaros
 // @homepageURL  https://github.com/Daidaros/meta-business-suite-content-table-cleaner
@@ -72,6 +72,22 @@
 
       if (nearBottomRight && (isNamedMetaAi || isIconOnlyFloatingControl)) {
         control.setAttribute(CHATBOT_HIDDEN, 'true');
+      }
+    }
+  }
+
+  function hideFloatingChatWidgets() {
+    for (const widget of document.querySelectorAll('iframe, button, [role="button"], a')) {
+      const rect = widget.getBoundingClientRect();
+      const style = window.getComputedStyle(widget);
+      const nearBottomRight = rect.right >= window.innerWidth - 200 &&
+        rect.bottom >= window.innerHeight - 180 && rect.width >= 28 &&
+        rect.width <= 180 && rect.height >= 28 && rect.height <= 180;
+      const floating = ['fixed', 'sticky', 'absolute'].includes(style.position) ||
+        Number.parseInt(style.zIndex, 10) >= 100;
+
+      if (nearBottomRight && floating && widget.tagName === 'IFRAME') {
+        widget.setAttribute(CHATBOT_HIDDEN, 'true');
       }
     }
   }
@@ -193,6 +209,7 @@
       installStyle();
       markControls();
       markChatbot();
+      hideFloatingChatWidgets();
       applyPagination();
     });
   }
