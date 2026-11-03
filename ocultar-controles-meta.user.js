@@ -1,9 +1,12 @@
 // ==UserScript==
 // @name         Meta Business Suite Content Table Cleaner & Pager
 // @namespace    https://github.com/Daidaros/meta-business-suite-content-table-cleaner
-// @version      2.2.0
+// @version      2.2.1
 // @description  Hide promotion and overflow controls, then paginate Meta Business Suite content only when more than eight rows are loaded.
 // @author       Daidaros
+// @homepageURL  https://github.com/Daidaros/meta-business-suite-content-table-cleaner
+// @updateURL    https://raw.githubusercontent.com/Daidaros/meta-business-suite-content-table-cleaner/main/ocultar-controles-meta.user.js
+// @downloadURL  https://raw.githubusercontent.com/Daidaros/meta-business-suite-content-table-cleaner/main/ocultar-controles-meta.user.js
 // @match        https://business.facebook.com/latest/insights/content*
 // @match        https://business.facebook.com/latest/posts/published_posts*
 // @grant        none
