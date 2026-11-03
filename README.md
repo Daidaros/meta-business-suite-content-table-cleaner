@@ -6,7 +6,7 @@ It works locally in your browser: it hides promotion buttons and overflow menus,
 
 ## Features
 
-- Hides **Promote / Boost** controls and row overflow menus (the three dots).
+- Hides **Promote / Boost** controls, row overflow menus (the three dots), and the floating Meta AI chatbot button.
 - Adds **Previous / Next** controls and shows eight rows per page only when more than eight rows are loaded. The controls are removed when eight or fewer rows are available.
 - Recognizes common promotion labels in English, Spanish, Portuguese, French, German, Italian, Dutch, several Nordic and Central European languages, Turkish, Indonesian, Vietnamese, Russian, Chinese, Japanese, Korean, Arabic and Hebrew.
 - Runs only on Meta Business Suite's Content Insights and Published posts pages.
